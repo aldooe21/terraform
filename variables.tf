@@ -23,25 +23,5 @@ variable "key_name" {
 variable "aws_region" {
   description = "AWS region"
   type        = string
-  default     = "us-east-1"
+  default     = "ap-southeast-2"
 }
-
-variable "AWS_ACCESS_KEY_ID" {
-  description = "AWS access key"
-  type        = string
-  sensitive   = true
-}
-
-variable "AWS_SECRET_ACCESS_KEY" {
-  description = "AWS secret key"
-  type        = string
-  sensitive   = true
-}
-
-variable "EC2_PRIVATE_KEY" {
-  description = "Private key for EC2 connection (optional)"
-  type        = string
-  sensitive   = true
-}
-
-
