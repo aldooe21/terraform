@@ -1,0 +1,59 @@
+name: Terraform Simple EC2 Provision
+
+on:
+  push:
+    branches:
+      - main
+
+env:
+  TF_WORKING_DIR: ./terraform
+
+jobs:
+  terraform:
+    runs-on: ubuntu-latest
+
+    defaults:
+      run:
+        working-directory: ${{ env.TF_WORKING_DIR }}
+
+    steps:
+    - name: Checkout repo
+      uses: actions/checkout@v4
+
+    - name: Setup Terraform
+      uses: hashicorp/setup-terraform@v3
+
+    # - name: Configure AWS Credentials
+    #   uses: aws-actions/configure-aws-credentials@v3
+    #   with:
+    #     aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+    #     aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+    #     aws-region: us-east-1
+
+    - name: Terraform Init
+      run: terraform init
+
+    - name: Terraform Plan
+      run: terraform plan -out=tfplan
+
+    - name: Terraform Apply
+      run: terraform apply -auto-approve tfplan
+
+    - name: Wait for Instance to be Ready
+      run: sleep 60
+
+    - name: Get Public IP
+      id: get_ip
+      run: |
+        echo "PUBLIC_IP=$(terraform output -raw public_ip)" >> "$GITHUB_ENV"
+    
+    - name: Write private key
+      run: |
+        mkdir -p ~/.ssh
+        echo "${{ secrets.EC2_PRIVATE_KEY }}" > ~/.ssh/id_rsa
+        chmod 600 ~/.ssh/id_rsa
+
+    - name: SSH into EC2 and Check Uptime
+      run: |
+        ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa ec2-user@${{ env.PUBLIC_IP }} 'uptime'
+      continue-on-error: true
