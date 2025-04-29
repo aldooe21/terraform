@@ -6,7 +6,7 @@ on:
       - main
 
 env:
-  TF_WORKING_DIR: ./terraform
+  TF_WORKING_DIR: .
 
 jobs:
   terraform:
@@ -55,5 +55,7 @@ jobs:
 
     - name: SSH into EC2 and Check Uptime
       run: |
-        ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa ec2-user@${{ env.PUBLIC_IP }} 'uptime'
+        for i in {1..5}; do
+          ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa ec2-user@${{ env.PUBLIC_IP }} 'uptime' && break || sleep 10
+        done
       continue-on-error: true
