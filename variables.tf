@@ -25,10 +25,3 @@ variable "aws_region" {
   type        = string
   default     = "ap-southeast-2"
 }
-
-variable "EC2_PRIVATE_KEY" {
-  description = "Private key for accessing EC2 instance"
-  type        = string
-  sensitive   = true
-}
-
