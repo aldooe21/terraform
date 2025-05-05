@@ -15,7 +15,6 @@ resource "aws_instance" "example" {
   ami                    = var.ami_id
   instance_type          = var.instance_type
   key_name               = var.key_name
-  subnet_id              = aws_subnet.example_subnet.id
   vpc_security_group_ids = ["sg-06d0fddd431f3e114"]
 
   tags = {
@@ -32,11 +31,6 @@ output "instance_public_ip" {
 output "instance_id" {
   description = "ID of the EC2 instance"
   value       = aws_instance.example.id
-}
-
-output "subnet_id" {
-  description = "ID of the subnet"
-  value       = aws_subnet.example_subnet.id
 }
 
 output "vpc_id" {
