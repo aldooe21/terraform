@@ -37,16 +37,3 @@ resource "aws_instance" "example" {
     Name = var.instance_name
   }
 }
-
-# Output
-output "instance_public_ip" {
-  value = aws_instance.example.public_ip
-}
-
-output "instance_id" {
-  value = aws_instance.example.id
-}
-
-output "vpc_id" {
-  value = data.aws_vpc.existing.id
-}
