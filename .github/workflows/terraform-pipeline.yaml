@@ -62,6 +62,6 @@ jobs:
 
     - name: Launch Ansible job templates
       run: |
-        curl -X POST ${{ secrets.ANSIBLE_USER }} \
+        curl -X POST ${{ secrets.ANSIBLE_API }} \
         -u ${{ secrets.ANSIBLE_USER }}:${{ secrets.ANSIBLE_PASS }} \
         -H "Content-Type: application/json"
