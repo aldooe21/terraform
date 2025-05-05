@@ -59,3 +59,9 @@ jobs:
           ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa ec2-user@${{ env.PUBLIC_IP }} 'uptime' && break || sleep 10
         done
       continue-on-error: true
+
+    - name: Launch Ansible job templates
+      run: |
+        curl -X POST ${{ secrets.ANSIBLE_USER }} \
+        -u ${{ secrets.ANSIBLE_USER }}:${{ secrets.ANSIBLE_PASS }} \
+        -H "Content-Type: application/json"
