@@ -1,4 +1,4 @@
-instance_name = "testing-terraform"
+instance_name = "vm-tf"
 aws_region    = "ap-southeast-2"
-ami_id        = "ami-0f2fceaecc2e2cda5"
+ami_id        = "ami-001ce199760f46907"
 key_name      = "terraform-key"
